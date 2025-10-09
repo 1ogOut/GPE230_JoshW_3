@@ -25,13 +25,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-private: 
-	UPROPERTY(EditAnywhere)
-	float moveSpeed;
-	UPROPERTY(EditAnywhere)
-	float rotationSpeed;
+
+	//adds the functions for Moving the player/camera
 private:
-	void MoveFB(float value);
-	void MoveLR(float value);
-	void Rotate(float value);
+	void MoveFB(float axisValue);
+	void MoveLR(float axisValue);
+	void Rotate(float axisValue);
+	void Jump() override;
 };

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "K2Node_InputAxisKeyEvent.h"
 #include "MazeCharacter.h"
 
 // Sets default values
@@ -28,22 +29,32 @@ void AMazeCharacter::Tick(float DeltaTime)
 // Called to bind functionality to input
 void AMazeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
+	//sets up the player inputs then binds the axis to the functions we created for moving the player/camera
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	PlayerInputComponent->BindAxis("MoveFB", this, &AMazeCharacter::MoveFB);
+	PlayerInputComponent->BindAxis("MoveLR", this, &AMazeCharacter::MoveLR);
+	PlayerInputComponent->BindAxis("Rotate", this, &AMazeCharacter::Rotate);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 }
 
-void AMazeCharacter::MoveFB(float value)
+//Creates a movement input that pushes our character forward by taking the value from our playerinput and adding it to our moveSpeed, this is the same for MoveLR and Rotate just with different ve
+void AMazeCharacter::MoveFB(float axisValue)
 {
-	AddMovementInput(GetActorForwardVector(), value * moveSpeed);
+	AddMovementInput(GetActorForwardVector(), axisValue);
 }
 
-void AMazeCharacter::MoveLR(float value)
+void AMazeCharacter::MoveLR(float axisValue)
 {
-	AddMovementInput(-GetActorRightVector(), value * moveSpeed);
+	AddMovementInput(-GetActorRightVector(), axisValue);
 }
 
-void AMazeCharacter::Rotate(float value)
+void AMazeCharacter::Rotate(float axisValue)
 {
-	AddControllerYawInput(value * rotationSpeed);
+	AddControllerYawInput(axisValue);
+}
+
+void AMazeCharacter::Jump()
+{
+	Super::Jump();
 }
 
