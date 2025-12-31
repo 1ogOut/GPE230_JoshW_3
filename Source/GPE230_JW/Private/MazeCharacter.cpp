@@ -102,3 +102,22 @@ void AMazeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 			Super::Jump();
 		}
 	}
+
+	//stuns nearby enemys and activates a particle effect 
+	void AMazeCharacter::ActivateStunParticleSystem()
+	{
+		//spawn a particle and play it once
+		if (_stunSystem)
+		{
+			//need a UScene to attach the system to. used default
+			USceneComponent* AttachComp = GetDefaultAttachComponent();
+			//spawns UNiagaraSystem, since its a file the instance is UNiagaraComponent, we then spawn the system and attach it to our player then destroy itself at the end of playback
+			UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAttached(_stunSystem, AttachComp, NAME_None, FVector(0), FRotator(0), EAttachLocation::Type::KeepRelativeOffset, true);
+			//spawns particles and runs them until time runs out
+			NiagaraComp->Activate();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Player used stun ability, no templlate particle system found, failed."));
+		}
+	}

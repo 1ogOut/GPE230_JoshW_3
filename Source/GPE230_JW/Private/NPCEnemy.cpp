@@ -56,7 +56,7 @@ void ANPCEnemy::DetectHit()
 				UGameplayStatics::ApplyDamage(HitResult.GetActor(), _HitDamage, GetController(), this, UDamageType::StaticClass());
 				//sets can damage to false so we dont apply damage multiple times in one punch
 				canDamage = false;
-			}
+			}	
 		}
 	}
 	//if the hit misses

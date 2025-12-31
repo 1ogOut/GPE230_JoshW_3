@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "MazeCharacter.generated.h"
 
 UCLASS()
@@ -33,10 +35,10 @@ protected:
 	float _currentHealth;
 
 	//damage items
-	//take damage function (overides AActor::TakeDamage) [might have to add "Class" infront of AController if there are issues] [might have to add struct infront of FDamageEvent if there are issues]
+	//take damage function (overides AActor::TakeDamage) 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	//die function 
-	virtual void Die();
+	 virtual void Die();
 
 public:	
 	// Called every frame
@@ -45,7 +47,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	//adds the functions for Moving the player/camera
+	UFUNCTION(BlueprintCallable)
+	void ActivateStunParticleSystem();
+
 private:
 	void MoveFB(float axisValue);
 	void MoveLR(float axisValue);
@@ -58,4 +62,7 @@ private:
 	//is the player dead
 		//death boolean
 	bool _dead = false;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* _stunSystem;
 };
